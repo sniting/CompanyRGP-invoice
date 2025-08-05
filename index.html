@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revathie Gear Products - Advanced Invoice System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --dark: #111827;
+            --light: #f3f4f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --gear-speed: 20s;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: var(--dark);
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            overflow: hidden;
+        }
+        
+        /* Animated Gears */
+        .gear {
+            position: absolute;
+            opacity: 0.1;
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
+        }
+        
+        .gear svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--secondary);
+        }
+        
+        .gear-1 {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 5%;
+            animation: rotate-cw var(--gear-speed) linear infinite;
+        }
+        
+        .gear-2 {
+            width: 150px;
+            height: 150px;
+            top: 15%;
+            right: 10%;
+            animation: rotate-ccw calc(var(--gear-speed) * 0.8) linear infinite;
+        }
+        
+        .gear-3 {
+            width: 300px;
+            height: 300px;
+            bottom: 10%;
+            left: -50px;
+            animation: rotate-cw calc(var(--gear-speed) * 1.5) linear infinite;
+        }
+        
+        .gear-4 {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            right: 15%;
+            animation: rotate-ccw calc(var(--gear-speed) * 0.6) linear infinite;
+        }
+        
+        @keyframes rotate-cw {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes rotate-ccw {
+            from { transform: rotate(360deg); }
+            to { transform: rotate(0deg); }
+        }
+        
+        /* Particle Effect */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-up 10s linear infinite;
+        }
+        
+        @keyframes float-up {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(10vh) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(0) scale(0);
+            }
+        }
+        
+        /* Main Container */
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Header with Animation */
+        .header {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            animation: slideDown 0.6s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 30px;
+            animation: fadeIn 0.8s ease-out 0.3s both;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Form Sections */
+        .form-section {
+            background: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .form-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+        
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .form-section h2 {
+            color: var(--accent);
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-section h2::before {
+            content: '⚙';
+            font-size: 1.2em;
+            animation: rotate-cw 3s linear infinite;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(17, 24, 39, 0.8);
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(17, 24, 39, 1);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        /* Item Management */
+        .items-container {
+            background: rgba(17, 24, 39, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .item-entry {
+            background: rgba(31, 41, 55, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 2px solid transparent;
+            position: relative;
+            animation: itemSlide 0.3s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes itemSlide {
+            from {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .item-entry:hover {
+            border-color: var(--accent);
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.2);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .item-number {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
+        }
+        
+        .remove-item {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-item:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+        
+        .item-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 15px;
+            align-items: end;
+        }
+        
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn:disabled {
+            background: #4b5563;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .add-item-btn {
+            background: linear-gradient(135deg, var(--success), #059669);
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            font-size: 0.9em;
+            padding: 10px 20px;
+        }
+        
+        .sample-btn {
+            background: linear-gradient(135deg, var(--accent), #d97706);
+            font-size: 0.9em;
+            padding: 10px 20px;
+        }
+        
+        /* Transport Section */
+        .transport-section {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1));
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            margin-top: 15px;
+        }
+        
+        /* Preview Section */
+        .preview-section {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            animation: fadeIn 0.8s ease-out 0.5s both;
+        }
+        
+        .preview-container {
+            background: rgba(31, 41, 55, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .preview-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-header h3 {
+            font-size: 1.3em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .preview-content {
+            background: white;
+            color: black;
+            min-height: 500px;
+            max-height: 700px;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        /* Preview Invoice Styles */
+        .preview-invoice {
+            font-size: 12px;
+            color: #000;
+        }
+        
+        .preview-invoice table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .preview-invoice th, .preview-invoice td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .preview-invoice th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        
+        /* Status Messages */
+        .status-message {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            animation: slideUp 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .status-message.success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
+            color: #10b981;
+            border: 2px solid rgba(16, 185, 129, 0.5);
+        }
+        
+        .status-message.error {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(220, 38, 38, 0.2));
+            color: #ef4444;
+            border: 2px solid rgba(239, 68, 68, 0.5);
+        }
+        
+        /* Checkbox Styling */
+        input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        
+        /* Loading Animation */
+        .loading-gear {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-left: 10px;
+            animation: rotate-cw 1s linear infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-section {
+                position: static;
+                margin-top: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .item-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            
+            .item-row > div:first-child {
+                grid-column: 1 / -1;
+            }
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(17, 24, 39, 0.5);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+        
+        /* Test Connection Buttons */
+        .test-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="particles" id="particles"></div>
+        
+        <!-- Animated Gears -->
+        <div class="gear gear-1">
+            <svg viewBox="0 0 100 100">
+                <path d="M50 10 L55 20 L65 15 L70 25 L80 20 L80 30 L90 35 L85 45 L90 50 L85 55 L90 65 L80 70 L80 80 L70 75 L65 85 L55 80 L50 90 L45 80 L35 85 L30 75 L20 80 L20 70 L10 65 L15 55 L10 50 L15 45 L10 35 L20 30 L20 20 L30 25 L35 15 L45 20 Z" />
+            </svg>
+        </div>
+        <div class="gear gear-2">
+            <svg viewBox="0 0 100 100">
+                <path d="M50 10 L55 20 L65 15 L70 25 L80 20 L80 30 L90 35 L85 45 L90 50 L85 55 L90 65 L80 70 L80 80 L70 75 L65 85 L55 80 L50 90 L45 80 L35 85 L30 75 L20 80 L20 70 L10 65 L15 55 L10 50 L15 45 L10 35 L20 30 L20 20 L30 25 L35 15 L45 20 Z" />
+            </svg>
+        </div>
+        <div class="gear gear-3">
+            <svg viewBox="0 0 100 100">
+                <path d="M50 10 L55 20 L65 15 L70 25 L80 20 L80 30 L90 35 L85 45 L90 50 L85 55 L90 65 L80 70 L80 80 L70 75 L65 85 L55 80 L50 90 L45 80 L35 85 L30 75 L20 80 L20 70 L10 65 L15 55 L10 50 L15 45 L10 35 L20 30 L20 20 L30 25 L35 15 L45 20 Z" />
+            </svg>
+        </div>
+        <div class="gear gear-4">
+            <svg viewBox="0 0 100 100">
+                <path d="M50 10 L55 20 L65 15 L70 25 L80 20 L80 30 L90 35 L85 45 L90 50 L85 55 L90 65 L80 70 L80 80 L70 75 L65 85 L55 80 L50 90 L45 80 L35 85 L30 75 L20 80 L20 70 L10 65 L15 55 L10 50 L15 45 L10 35 L20 30 L20 20 L30 25 L35 15 L45 20 Z" />
+            </svg>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <header class="header">
+            <h1>Revathie Gear Products</h1>
+            <p>Advanced Invoice Generation System</p>
+        </header>
+        
+        <div class="content-grid">
+            <div class="form-column">
+                <div class="test-buttons">
+                    <button class="btn sample-btn" onclick="loadSampleData()">
+                        <span>Load Sample Data</span>
+                    </button>
+                    <button class="btn test-btn" onclick="testConnection()">
+                        <span>Test Connection</span>
+                    </button>
+                </div>
+                
+                <form id="invoiceForm">
+                    <div class="form-section">
+                        <h2>Client Information</h2>
+                        <div class="form-group">
+                            <label>Client Name *</label>
+                            <input type="text" name="client_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Client Address *</label>
+                            <textarea name="client_address" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Client GSTIN</label>
+                            <input type="text" name="client_gst" pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}" placeholder="e.g., 37AAACC4209Q1ZF">
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2>Invoice Details</h2>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Invoice No *</label>
+                                <input type="text" name="invoice_no" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Invoice Date *</label>
+                                <input type="date" name="date" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>DC No</label>
+                                <input type="text" name="dc_no">
+                            </div>
+                            <div class="form-group">
+                                <label>DC Date</label>
+                                <input type="date" name="dc_date">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Despatch Through</label>
+                                <input type="text" name="despatch_through" value="NAVADA TRANSPORT">
+                            </div>
+                            <div class="form-group">
+                                <label>Document Through</label>
+                                <input type="text" name="document_through" value="COURIER">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h2>Items & Services</h2>
+                        <div class="items-container">
+                            <div id="itemsContainer">
+                                <!-- Dynamic items will be added here -->
+                            </div>
+                            <button type="button" class="btn add-item-btn" onclick="addItem()">+ Add New Item</button>
+                        </div>
+                        
+                        <div class="transport-section">
+                            <label>
+                                <input type="checkbox" id="hasTransport" onchange="toggleTransport()">
+                                Add Transport Charges
+                            </label>
+                            <div id="transportCharge" style="display: none; margin-top: 15px;">
+                                <label>Transport Amount</label>
+                                <input type="number" name="transport_charge" step="0.01" placeholder="0.00" onchange="updatePreview()">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row" style="margin-top: 20px;">
+                            <div class="form-group">
+                                <label>HSN/SAC Code</label>
+                                <input type="text" name="hsn" value="995469" onchange="updatePreview()">
+                            </div>
+                            <div class="form-group">
+                                <label>Tax Rate (%)</label>
+                                <select name="tax_rate" onchange="updatePreview()">
+                                    <option value="12">12% GST</option>
+                                    <option value="18" selected>18% GST</option>
+                                    <option value="28">28% GST</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Labour Charges Text</label>
+                            <input type="text" name="labour_charges_text" value="LABOUR CHARGES ONLY." placeholder="e.g., LABOUR CHARGES ONLY." onchange="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="inter_state" onchange="updatePreview()">
+                                Inter-state supply (IGST instead of CGST/SGST)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button type="submit" class="btn" id="generateBtn">
+                            Generate Invoice
+                        </button>
+                    </div>
+                    
+                    <div class="status-message" id="statusMessage"></div>
+                </form>
+            </div>
+            
+            <div class="preview-section">
+                <div class="preview-container">
+                    <div class="preview-header">
+                        <h3>Live Preview</h3>
+                    </div>
+                    <div class="preview-content">
+                        <div id="previewArea" class="preview-invoice">
+                            <p style="text-align: center; color: #999; margin-top: 150px;">
+                                Add items to see preview
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Generate particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+        
+        // Set today's date
+        document.querySelector('input[name="date"]').valueAsDate = new Date();
+        
+        // Production Webhook URL
+        const WEBHOOK_URL = 'https://sngsng.app.n8n.cloud/webhook/invoice-generator-v3';
+        
+        let itemCount = 0;
+        
+        // Function to convert number to words (Indian numbering system)
+        function numberToWords(num) {
+            const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+            const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+            const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+            
+            if (num === 0) return 'Zero';
+            
+            // Handle up to 99,99,999 (Indian numbering)
+            const crore = Math.floor(num / 10000000);
+            const lakh = Math.floor((num % 10000000) / 100000);
+            const thousand = Math.floor((num % 100000) / 1000);
+            const hundred = Math.floor((num % 1000) / 100);
+            const remainder = num % 100;
+            
+            let words = '';
+            
+            if (crore > 0) {
+                words += numberToWords(crore) + ' Crore ';
+            }
+            
+            if (lakh > 0) {
+                words += numberToWords(lakh) + ' Lakh ';
+            }
+            
+            if (thousand > 0) {
+                words += numberToWords(thousand) + ' Thousand ';
+            }
+            
+            if (hundred > 0) {
+                words += ones[hundred] + ' Hundred ';
+            }
+            
+            if (remainder > 0) {
+                if (remainder < 10) {
+                    words += ones[remainder];
+                } else if (remainder < 20) {
+                    words += teens[remainder - 10];
+                } else {
+                    words += tens[Math.floor(remainder / 10)] + ' ' + ones[remainder % 10];
+                }
+            }
+            
+            return words.trim();
+        }
+        
+        function addItem() {
+            itemCount++;
+            const container = document.getElementById('itemsContainer');
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-entry';
+            itemDiv.id = 'item-' + itemCount;
+            
+            itemDiv.innerHTML = '<div class="item-header">' +
+                '<span class="item-number">Item ' + itemCount + '</span>' +
+                (itemCount > 1 ? '<button type="button" class="remove-item" onclick="removeItem(' + itemCount + ')">Remove</button>' : '') +
+                '</div>' +
+                '<div class="item-fields">' +
+                '<div class="form-group">' +
+                '<label>Item Name</label>' +
+                '<input type="text" name="item_name_' + itemCount + '" placeholder="e.g., Crumble roller" onchange="updatePreview()">' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label>Service Description</label>' +
+                '<textarea name="item_service_' + itemCount + '" rows="2" placeholder="e.g., servicing work' + String.fromCharCode(10) + 'flutted roller (250*1500)" onchange="updatePreview()"></textarea>' +
+                '</div>' +
+                '<div class="item-row">' +
+                '<div class="form-group">' +
+                '<label>Additional Details</label>' +
+                '<input type="text" name="item_details_' + itemCount + '" placeholder="Optional" onchange="updatePreview()">' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label>Quantity</label>' +
+                '<input type="text" name="item_qty_' + itemCount + '" placeholder="e.g., 3NOS" required onchange="updatePreview()">' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label>Rate</label>' +
+                '<input type="number" name="item_rate_' + itemCount + '" step="0.01" placeholder="0.00" required onchange="updatePreview()">' +
+                '</div>' +
+                '<div class="form-group">' +
+                '<label>Amount</label>' +
+                '<input type="number" name="item_amount_' + itemCount + '" step="0.01" readonly style="background: rgba(17, 24, 39, 0.8); border-color: rgba(59, 130, 246, 0.1);">' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            
+            container.appendChild(itemDiv);
+            
+            // Auto-calculate amount
+            const qtyInput = itemDiv.querySelector('input[name="item_qty_' + itemCount + '"]');
+            const rateInput = itemDiv.querySelector('input[name="item_rate_' + itemCount + '"]');
+            const amountInput = itemDiv.querySelector('input[name="item_amount_' + itemCount + '"]');
+            
+            const calculateAmount = () => {
+                const qty = parseFloat(qtyInput.value.replace(/[^0-9.]/g, '')) || 0;
+                const rate = parseFloat(rateInput.value) || 0;
+                amountInput.value = (qty * rate).toFixed(2);
+                updatePreview();
+            };
+            
+            qtyInput.addEventListener('input', calculateAmount);
+            rateInput.addEventListener('input', calculateAmount);
+        }
+        
+        function removeItem(id) {
+            const element = document.getElementById('item-' + id);
+            element.style.animation = 'slideOut 0.3s ease-out';
+            setTimeout(() => {
+                element.remove();
+                updatePreview();
+            }, 300);
+        }
+        
+        function toggleTransport() {
+            const transportDiv = document.getElementById('transportCharge');
+            if (document.getElementById('hasTransport').checked) {
+                transportDiv.style.display = 'block';
+                transportDiv.style.animation = 'fadeIn 0.3s ease-out';
+            } else {
+                transportDiv.style.display = 'none';
+            }
+            updatePreview();
+        }
+        
+        function loadSampleData() {
+            // Clear existing items
+            document.getElementById('itemsContainer').innerHTML = '';
+            itemCount = 0;
+            
+            // Set client info
+            document.querySelector('input[name="client_name"]').value = 'M/S, CPF (INDIA) PRIVATE LIMITED';
+            document.querySelector('textarea[name="client_address"]').value = '2-245, YERVVARAM VILLAGE,' + String.fromCharCode(10) + 'YELLESWARAM MANDAL,' + String.fromCharCode(10) + 'EASTGODAVARI(DIST)' + String.fromCharCode(10) + 'ANDHRA PRADESH - 533435';
+            document.querySelector('input[name="client_gst"]').value = '37AAACC4209Q1ZF';
+            document.querySelector('input[name="invoice_no"]').value = '0327';
+            document.querySelector('input[name="date"]').value = '2020-03-19';
+            document.querySelector('input[name="dc_no"]').value = '736';
+            document.querySelector('input[name="dc_date"]').value = '2020-03-19';
+            document.querySelector('input[name="inter_state"]').checked = true;
+            
+            // Add item
+            addItem();
+            setTimeout(() => {
+                document.querySelector('input[name="item_name_1"]').value = 'Mechanical works and maintenance';
+                document.querySelector('textarea[name="item_service_1"]').value = 'Crumble roller servicing work' + String.fromCharCode(10) + 'Crumble flutted roller (250*1500)';
+                document.querySelector('input[name="item_details_1"]').value = 'Servicing charges';
+                document.querySelector('input[name="item_qty_1"]').value = '3NOS';
+                document.querySelector('input[name="item_rate_1"]').value = '17000.00';
+                document.querySelector('input[name="item_amount_1"]').value = '51000.00';
+                
+                // Add transport
+                document.getElementById('hasTransport').checked = true;
+                toggleTransport();
+                document.querySelector('input[name="transport_charge"]').value = '29300.00';
+                
+                updatePreview();
+            }, 100);
+        }
+        
+        function updatePreview() {
+            const form = document.getElementById('invoiceForm');
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            // Collect items
+            const items = [];
+            let subtotal = 0;
+            
+            for (let i = 1; i <= itemCount; i++) {
+                if (document.getElementById('item-' + i)) {
+                    const name = data['item_name_' + i];
+                    const service = data['item_service_' + i];
+                    const details = data['item_details_' + i];
+                    const qty = data['item_qty_' + i];
+                    const rate = parseFloat(data['item_rate_' + i]) || 0;
+                    const amount = parseFloat(data['item_amount_' + i]) || 0;
+                    
+                    if (name || service) {
+                        items.push({
+                            name: name || '',
+                            service: service || '',
+                            details: details || '',
+                            qty: qty || '',
+                            rate: rate,
+                            amount: amount
+                        });
+                        subtotal += amount;
+                    }
+                }
+            }
+            
+            // Add transport
+            const transportCharge = parseFloat(data.transport_charge) || 0;
+            if (document.getElementById('hasTransport').checked && transportCharge > 0) {
+                subtotal += transportCharge;
+            }
+            
+            // Calculate tax
+            const taxRate = parseFloat(data.tax_rate || 18);
+            const isInterState = data.inter_state === 'on';
+            const taxAmount = (subtotal * taxRate) / 100;
+            const total = subtotal + taxAmount;
+            
+            // Convert total to words
+            const totalInWords = numberToWords(Math.round(total)) + ' only.';
+            
+            // Generate preview HTML
+            let itemsHtml = '';
+            items.forEach((item, index) => {
+                const description = [item.name, item.service, item.details]
+                    .filter(d => d)
+                    .join('<br>');
+                
+                itemsHtml += '<tr>' +
+                    '<td style="border: 1px solid #000; padding: 8px; text-align: center;">' + (index + 1) + '.</td>' +
+                    '<td style="border: 1px solid #000; padding: 8px;">' + description + '</td>' +
+                    '<td style="border: 1px solid #000; padding: 8px; text-align: center;">' + item.qty + '</td>' +
+                    '<td style="border: 1px solid #000; padding: 8px; text-align: right;">' + item.rate.toFixed(2) + '</td>' +
+                    '<td style="border: 1px solid #000; padding: 8px; text-align: right;">' + item.amount.toFixed(2) + '</td>' +
+                    '</tr>';
+            });
+            
+            const labourChargesText = data.labour_charges_text || '';
+            const hsnSection = labourChargesText ? 
+                '<strong>HSN: ' + (data.hsn || '995469') + '</strong><br><strong>' + labourChargesText + '</strong>' :
+                '<strong>HSN: ' + (data.hsn || '995469') + '</strong>';
+            
+            const previewHtml = '<div style="padding: 20px; font-size: 12px;">' +
+                '<div style="text-align: center; margin-bottom: 20px;">' +
+                '<h2 style="color: #1e3a8a; margin: 0;">REVATHIE GEAR PRODUCTS</h2>' +
+                '<p style="margin: 5px 0;">Professional Invoice</p>' +
+                '</div>' +
+                
+                '<table style="width: 100%; margin-bottom: 20px; border: 1px solid #000;">' +
+                '<tr>' +
+                '<td style="padding: 15px; width: 50%; vertical-align: top; border-right: 1px solid #000;">' +
+                '<strong>TO:</strong><br>' +
+                '<strong>' + (data.client_name || 'Client Name') + '</strong><br>' +
+                (data.client_address || '').replace(/\n/g, '<br>') + '<br>' +
+                (data.client_gst ? 'GST: ' + data.client_gst : '') +
+                '</td>' +
+                '<td style="padding: 15px; vertical-align: top;">' +
+                '<strong>Invoice No:</strong> ' + (data.invoice_no || '---') + '<br>' +
+                '<strong>Date:</strong> ' + (data.date ? new Date(data.date).toLocaleDateString('en-GB') : '---') + '<br>' +
+                '<strong>DC No:</strong> ' + (data.dc_no || '---') + '<br>' +
+                '<strong>DC Date:</strong> ' + (data.dc_date ? new Date(data.dc_date).toLocaleDateString('en-GB') : '---') + '<br>' +
+                '<strong>Despatch:</strong> ' + (data.despatch_through || '---') + '<br>' +
+                '<strong>Document:</strong> ' + (data.document_through || '---') +
+                '</td>' +
+                '</tr>' +
+                '</table>' +
+                
+                '<table style="width: 100%; border-collapse: collapse;">' +
+                '<thead>' +
+                '<tr style="background: #f0f0f0;">' +
+                '<th style="border: 1px solid #000; padding: 10px; width: 8%;">S.No</th>' +
+                '<th style="border: 1px solid #000; padding: 10px; width: 50%;">Description</th>' +
+                '<th style="border: 1px solid #000; padding: 10px; width: 12%;">Qty</th>' +
+                '<th style="border: 1px solid #000; padding: 10px; width: 15%;">Rate/Nos</th>' +
+                '<th style="border: 1px solid #000; padding: 10px; width: 15%;">Amount</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                '<tr>' +
+                '<td colspan="5" style="border: 1px solid #000; padding: 10px;">' +
+                hsnSection +
+                '</td>' +
+                '</tr>' +
+                itemsHtml +
+                (transportCharge > 0 ? '<tr>' +
+                '<td colspan="4" style="border: 1px solid #000; padding: 8px;">Transport charges</td>' +
+                '<td style="border: 1px solid #000; padding: 8px; text-align: right;">' + transportCharge.toFixed(2) + '</td>' +
+                '</tr>' : '') +
+                '<tr>' +
+                '<td colspan="5" style="border-top: 2px solid #000; padding: 10px; text-align: right;">' +
+                '<strong>Subtotal: ' + subtotal.toFixed(2) + '</strong>' +
+                '</td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td colspan="5" style="border: none; text-align: center; padding: 15px;">' +
+                '<strong>' + (isInterState ? 'IGST (' + taxRate + '%)' : 'CGST (' + (taxRate/2) + '%) + SGST (' + (taxRate/2) + '%)') + ': ' + taxAmount.toFixed(2) + '</strong>' +
+                '</td>' +
+                '</tr>' +
+                '<tr style="background: #f0f0f0;">' +
+                '<td colspan="4" style="border: 1px solid #000; padding: 10px; text-align: right;"><strong>TOTAL</strong></td>' +
+                '<td style="border: 1px solid #000; padding: 10px; text-align: right;">' +
+                '<strong style="font-size: 1.2em;">₹ ' + total.toFixed(2) + '</strong>' +
+                '</td>' +
+                '</tr>' +
+                '</tbody>' +
+                '</table>' +
+                '<div style="margin-top: 15px; font-weight: bold;">' +
+                'Rupees: ' + totalInWords +
+                '</div>' +
+                '<div style="margin-top: 50px; text-align: right; padding-right: 30px;">' +
+                '<div><strong>FOR REVATHIE GEAR PRODUCTS</strong></div>' +
+                '<div style="margin-top: 60px; border-top: 1px solid #000; display: inline-block; padding-top: 5px;">Authorised Signature</div>' +
+                '</div>' +
+                '</div>';
+            
+            document.getElementById('previewArea').innerHTML = previewHtml;
+        }
+        
+        // Form submission
+        document.getElementById('invoiceForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('generateBtn');
+            const statusMsg = document.getElementById('statusMessage');
+            
+            btn.disabled = true;
+            btn.innerHTML = 'Generating<span class="loading-gear">⚙</span>';
+            statusMsg.style.display = 'none';
+            
+            // Prepare data
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            // Structure items
+            const items = [];
+            for (let i = 1; i <= itemCount; i++) {
+                if (document.getElementById('item-' + i)) {
+                    const item = {
+                        name: data['item_name_' + i] || '',
+                        service: data['item_service_' + i] || '',
+                        details: data['item_details_' + i] || '',
+                        qty: data['item_qty_' + i] || '',
+                        rate: data['item_rate_' + i] || '0',
+                        amount: data['item_amount_' + i] || '0'
+                    };
+                    items.push(item);
+                }
+            }
+            
+            // Prepare invoice data
+            const invoiceData = {
+                client_name: data.client_name,
+                client_address: data.client_address,
+                client_gst: data.client_gst,
+                invoice_no: data.invoice_no,
+                date: data.date,
+                dc_no: data.dc_no,
+                dc_date: data.dc_date,
+                despatch_through: data.despatch_through,
+                document_through: data.document_through,
+                items: items,
+                transport_charge: data.transport_charge || '0',
+                hsn: data.hsn,
+                labour_charges_text: data.labour_charges_text,
+                tax_rate: data.tax_rate,
+                inter_state: data.inter_state === 'on'
+            };
+            
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(invoiceData)
+                });
+                
+                if (response.ok) {
+                    const contentType = response.headers.get('content-type');
+                    
+                    if (contentType && contentType.includes('application/pdf')) {
+                        // Handle PDF response
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'Invoice_' + invoiceData.invoice_no + '.pdf';
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        
+                        statusMsg.className = 'status-message success';
+                        statusMsg.innerHTML = '✅ Invoice PDF downloaded successfully!';
+                    } else if (contentType && contentType.includes('text/html')) {
+                        // Handle HTML response - open in new window with print dialog
+                        const html = await response.text();
+                        const newWindow = window.open('', '_blank');
+                        newWindow.document.write(html);
+                        newWindow.document.close();
+                        
+                        // Auto-trigger print dialog after a short delay
+                        setTimeout(() => {
+                            newWindow.print();
+                        }, 1000);
+                        
+                        statusMsg.className = 'status-message success';
+                        statusMsg.innerHTML = '✅ Invoice opened! Use Print or Save as PDF from the browser.';
+                    } else if (contentType && contentType.includes('application/json')) {
+                        // Handle JSON response (likely test response)
+                        const data = await response.json();
+                        statusMsg.className = 'status-message success';
+                        statusMsg.innerHTML = '✅ ' + (data.message || 'Request processed successfully!');
+                    }
+                    statusMsg.style.display = 'block';
+                } else {
+                    const errorText = await response.text();
+                    throw new Error('Failed to generate invoice: ' + errorText);
+                }
+            } catch (error) {
+                statusMsg.className = 'status-message error';
+                statusMsg.innerHTML = '❌ ' + error.message;
+                statusMsg.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Generate Invoice';
+            }
+        });
+        
+        // Test connection
+        async function testConnection() {
+            const statusMsg = document.getElementById('statusMessage');
+            statusMsg.style.display = 'none';
+            
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ test: true })
+                });
+                
+                if (response.ok) {
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const data = await response.json();
+                        statusMsg.className = 'status-message success';
+                        statusMsg.innerHTML = '✅ ' + (data.message || 'Connection successful!');
+                    } else {
+                        statusMsg.className = 'status-message success';
+                        statusMsg.innerHTML = '✅ Connection successful! Webhook is active.';
+                    }
+                } else {
+                    statusMsg.className = 'status-message error';
+                    statusMsg.innerHTML = '❌ Connection failed. Check n8n workflow.';
+                }
+            } catch (error) {
+                statusMsg.className = 'status-message error';
+                statusMsg.innerHTML = '❌ Cannot connect to webhook: ' + error.message;
+            }
+            
+            statusMsg.style.display = 'block';
+        }
+        
+        // Initialize with one item
+        addItem();
+        
+        // Add slide out animation
+        const style = document.createElement('style');
+        style.textContent = '@keyframes slideOut { to { transform: translateX(-100%); opacity: 0; } }';
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
